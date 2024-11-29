@@ -1,0 +1,12 @@
+{
+    "name": "SumUP",
+    "version": "1.0.0",
+    "description": "This is an extension that Sums up a page",
+    "manifest_version":3,
+    "author" : "Tang Jia Shen",
+    "action" : {
+        "default_popup" : "index.html",
+        "default_title" : "SumUP"
+    },
+    "permissions": ["activeTab", "scripting", "storage"]
+}
