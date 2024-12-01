@@ -1,17 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Prompt API</title>
-    <script src="script.js" type="module"></script>
-  </head>
-  <body>
-    <h1>Simple Prompt API</h1>
-    <textarea id="prompt-input" placeholder="Enter your prompt here"></textarea><br><br>
-    <button id="submit-btn">Submit Prompt</button>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI API Extension</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Choose an API Feature</h1>
+  </header>
 
+  <!-- Feature Selection Buttons -->
+  <div id="feature-buttons">
+    <button id="prompt-button">Prompt API</button>
+    <button id="summary-button">Summarize API</button>
+  </div>
+
+  <!-- Back Button -->
+  <button id="back-btn" style="display: none;">Back</button>
+
+  <!-- Prompt Feature Section -->
+  <div id="prompt-feature" class="feature" style="display: none;">
+    <textarea id="prompt-input" placeholder="Enter your prompt...."></textarea>
+    <button id="submit-btn-prompt">Submit</button>
     <h2>Response:</h2>
-    <pre id="response-output"></pre>
-  </body>
+    <pre id="prompt-response-output"></pre>
+  </div>
+
+  <!-- Summarization Feature Section -->
+  <div id="summary-feature" class="feature" style="display: none;">
+    <textarea id="summary-input" placeholder="Enter text to summarize"></textarea>
+    <label for="summary-type">Type:</label>
+    <select id="summary-type">
+      <option value="key-points">Key Points</option>
+      <option value="tl;dr">TL;DR</option>
+      <option value="teaser">Teaser</option>
+      <option value="headline">Headline</option>
+    </select>
+    <label for="summary-length">Length:</label>
+    <select id="summary-length">
+      <option value="short">Short</option>
+      <option value="medium">Medium</option>
+      <option value="long">Long</option>
+    </select>
+    <label for="summary-format">Format:</label>
+    <select id="summary-format">
+      <option value="markdown">Markdown</option>
+      <option value="plain-text">Plain Text</option>
+    </select>
+  <div> 
+    <button id="submit-btn-summary">Submit</button>
+  </div>
+  <div>
+    <h2>Summary:</h2>
+    <pre id="summary-response-output"></pre>
+  </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
 </html>
