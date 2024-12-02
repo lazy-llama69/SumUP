@@ -15,6 +15,7 @@
   <div id="feature-buttons">
     <button id="prompt-button">Prompt API</button>
     <button id="summary-button">Summarize API</button>
+    <button id="detect-button">Detect API</button>
   </div>
 
   <!-- Back Button -->
@@ -49,14 +50,23 @@
       <option value="markdown">Markdown</option>
       <option value="plain-text">Plain Text</option>
     </select>
-  <div> 
-    <button id="submit-btn-summary">Submit</button>
+    <div> 
+      <button id="submit-btn-summary">Submit</button>
+    </div>
+    <div>
+      <h2>Summary:</h2>
+      <pre id="summary-response-output"></pre>
+    </div>
   </div>
-  <div>
-    <h2>Summary:</h2>
-    <pre id="summary-response-output"></pre>
+
+  <!-- Detect Language Section -->
+  <div id="detect-feature" class="feature" style="display: none;">
+    <textarea id="detect-input" placeholder="Enter your unidentified text language...."></textarea>
+    <button id="submit-btn-detect">Submit</button>
+    <h2>The language is:</h2>
+    <pre id="detect-response-output"></pre>
   </div>
-  </div>
+
 
   <script src="script.js"></script>
 </body>
