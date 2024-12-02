@@ -15,7 +15,7 @@ document.getElementById("prompt-button").addEventListener("click", () => showFea
 document.getElementById("summary-button").addEventListener("click", () => showFeature("Summarize API", "summary-feature"));
 document.getElementById("detect-button").addEventListener("click", () => showFeature("Detect API", "detect-feature"));
 document.getElementById("translate-button").addEventListener("click", () => showFeature("Translate API", "translate-feature"));
-document.getElementById("write-button").addEventListener("click", () => showFeature("Write/Rewrite API", "write-feature"));
+document.getElementById("write-button").addEventListener("click", () => showFeature("Write and Rewrite API", "write-feature"));
 
 backButton.addEventListener("click", () => {
   toggleVisibility(backButton, false);
@@ -190,15 +190,17 @@ function initializeWriteFeature() {
   const submitRewriteButton = document.getElementById("submit-btn-rewrite");
   const rewriteToneSelect = document.getElementById("rewrite-tone");
   const rewriteLengthSelect = document.getElementById("rewrite-length");
+  const rewriteSection = document.getElementById("rewrite-feature");
 
   if (!self.ai || !self.ai.writer) {
     alert("Writer API is unavailable.");
     return;
-  } elif (!self.ai.rewriter) {
+  } 
+  if (!self.ai.rewriter) {
     alert("Rewriter API is unavaianble");
-  }
+    return;
+  } 
 
-  
   submitWriteButton.addEventListener('click', async () => {
     const prompt = inputTextArea.value.trim();
     const context = contextInput.value.trim();
@@ -213,19 +215,19 @@ function initializeWriteFeature() {
       sharedContext: context,
     });
     responseOutput.textContent = 'Generating...'; 
-    try{
-      responseOutput.textContent = "";
-      let completeResponse = "";
+    try{  
       const stream = await writer.writeStreaming(prompt, {sharedContext : context});
+      responseOutput.textContent = "";
       for await (const chunk of stream){
-        completeResponse += chunk.trim();
-        responseOutput.textContent = completeResponse;
+        responseOutput.textContent = chunk.trim();
       }
+      rewriteSection.style.display = "block";
     } catch (error) {
-      responseOutput.textContent = "Error generating response. Please try again.";
+      responseOutput.textContent = "Error generating response. Please try again with a new prompt or context";
       console.error("Writer error:", error);
     }
   });
+
 
   submitRewriteButton.addEventListener('click', async () =>{
     const prompt = responseOutput.textContent;
@@ -243,15 +245,14 @@ function initializeWriteFeature() {
     });
     try{
       const stream = await rewriter.rewriteStreaming(prompt);
-      responseOutput.textContent = "";
-      let completeResponse = "";
-
       for await (const chunk of stream){
-        completeResponse += chunk;
-        responseOutput.textContent = completeResponse;
+        responseOutput.textContent = chunk.trim();
       }
+      // const result = await rewriter.rewrite(prompt);
+      // responseOutput.textContent = "";
+      // responseOutput.textContent = result;
     } catch(error){
-        responseOutput.textContent = "Error rewriting text.";
+        responseOutput.textContent = "Error rewriting text.  Please try again with a new prompt or different settings";
         console.error("Rewriter error:", error);
     }
     
