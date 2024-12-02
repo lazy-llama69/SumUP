@@ -10,9 +10,11 @@ Done:
 -Prompt 
 -Summarising
 -Translate 
+-Write and rewrite 
 
 Things to note about:
 1. Detect API is very clunky and only works in the console for some reason. 
 2. Spanish language cannot translate to Japanese or vice versa.
-
+3. Write API sometimes gives DOM exception when given a prompt which may not be suitable
+4. Rewrite API with the same problem. 
 """
