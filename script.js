@@ -8,12 +8,14 @@ initializePromptFeature();
 initializeSummarizationFeature();
 initializeDetectFeature();
 initializeTranslateFeature();
+initializeWriteFeature();
 
 // Feature Toggle Logic
 document.getElementById("prompt-button").addEventListener("click", () => showFeature("Prompt API", "prompt-feature"));
 document.getElementById("summary-button").addEventListener("click", () => showFeature("Summarize API", "summary-feature"));
 document.getElementById("detect-button").addEventListener("click", () => showFeature("Detect API", "detect-feature"));
 document.getElementById("translate-button").addEventListener("click", () => showFeature("Translate API", "translate-feature"));
+document.getElementById("write-button").addEventListener("click", () => showFeature("Write/Rewrite API", "write-feature"));
 
 backButton.addEventListener("click", () => {
   toggleVisibility(backButton, false);
@@ -23,6 +25,7 @@ backButton.addEventListener("click", () => {
   toggleVisibility(document.getElementById("summary-feature"), false);
   toggleVisibility(document.getElementById("detect-feature"), false);
   toggleVisibility(document.getElementById("translate-feature"), false);
+  toggleVisibility(document.getElementById("write-feature"), false);
 });
 
 // Show feature-specific section and update UI
@@ -154,10 +157,7 @@ function initializeTranslateFeature() {
       responseOutput.textContent = "Please enter text to translate.";
       return;
     }
-
     responseOutput.textContent = "Translating...";
-
-    // Re-initialize languagePair inside the event listener
     const languagePair = {
       sourceLanguage: 'en', 
       targetLanguage: translateTo.value,  // Capture current dropdown value
@@ -170,7 +170,7 @@ function initializeTranslateFeature() {
         const translated_text = await translator.translate(inputText);
         
         responseOutput.textContent = translated_text; 
-        translator.destroy(); // Clean up translator
+        translator.destroy();
       } else {
         responseOutput.textContent = "Error: Translation not readily available.";
       }
@@ -179,4 +179,81 @@ function initializeTranslateFeature() {
       console.error("Translation error:", error);
     }
   });
+}
+
+/** ----------------- WRITE+REWRITE FEATURE ----------------- **/
+function initializeWriteFeature() {
+  const inputTextArea = document.getElementById("write-input");
+  const contextInput = document.getElementById("context");
+  const responseOutput = document.getElementById("write-response-output");
+  const submitWriteButton = document.getElementById("submit-btn-write");
+  const submitRewriteButton = document.getElementById("submit-btn-rewrite");
+  const rewriteToneSelect = document.getElementById("rewrite-tone");
+  const rewriteLengthSelect = document.getElementById("rewrite-length");
+
+  if (!self.ai || !self.ai.writer) {
+    alert("Writer API is unavailable.");
+    return;
+  } elif (!self.ai.rewriter) {
+    alert("Rewriter API is unavaianble");
+  }
+
+  
+  submitWriteButton.addEventListener('click', async () => {
+    const prompt = inputTextArea.value.trim();
+    const context = contextInput.value.trim();
+    if (!prompt){
+      responseOutput.textContent = "Please enter a prompt."
+      return;
+    }
+    writer = await self.ai.writer.create({
+      tone: "neutral",
+      length: "medium",
+      format: "plain-text",
+      sharedContext: context,
+    });
+    responseOutput.textContent = 'Generating...'; 
+    try{
+      responseOutput.textContent = "";
+      let completeResponse = "";
+      const stream = await writer.writeStreaming(prompt, {sharedContext : context});
+      for await (const chunk of stream){
+        completeResponse += chunk.trim();
+        responseOutput.textContent = completeResponse;
+      }
+    } catch (error) {
+      responseOutput.textContent = "Error generating response. Please try again.";
+      console.error("Writer error:", error);
+    }
+  });
+
+  submitRewriteButton.addEventListener('click', async () =>{
+    const prompt = responseOutput.textContent;
+    const context = contextInput.value.trim();
+    if (!prompt){
+      responseOutput.textContent = "No text to rewrite";
+      return;
+    }
+    responseOutput.textContent = "Rewriting...";
+    rewriter = await self.ai.rewriter.create({
+      tone: rewriteToneSelect.value,
+      length: rewriteLengthSelect.value,
+      format: "as-is",
+      sharedContext: context,
+    });
+    try{
+      const stream = await rewriter.rewriteStreaming(prompt);
+      responseOutput.textContent = "";
+      let completeResponse = "";
+
+      for await (const chunk of stream){
+        completeResponse += chunk;
+        responseOutput.textContent = completeResponse;
+      }
+    } catch(error){
+        responseOutput.textContent = "Error rewriting text.";
+        console.error("Rewriter error:", error);
+    }
+    
+  })
 }

@@ -17,6 +17,7 @@
     <button id="summary-button">Summarize API</button>
     <button id="detect-button">Detect API</button>
     <button id="translate-button">Translate API</button>
+    <button id="write-button">Write/Rewrite API</button>
   </div>
 
   <!-- Back Button -->
@@ -80,7 +81,39 @@
     <h2>Result:</h2>
     <pre id="translate-response-output"></pre>
   </div>
-  
+
+  <!-- Writer/Rewriter Section -->
+  <div id="write-feature" class="feature" style="display: none;">
+    <textarea id="write-input" placeholder="Enter your prompt...."></textarea>
+    <label for="context">Context</label>
+    <input id="context" placeholder="e.g I am replying to my boss"/>
+    <button id="submit-btn-write">Submit</button>
+    <h2>Result:</h2>
+    <pre id="write-response-output"></pre>
+
+    <!-- Rewrite Section -->
+    <fieldset id="rewrite-feature" style="display: none;">
+      <legend>Rewrite Options:</legend>
+      <label>
+        Rewrite Tone:
+        <select id="rewrite-tone">
+          <option value="more-formal">More Formal</option>
+          <option value="more-casual">More Casual</option>
+          <option value="as-is" selected>As Is</option>
+        </select>
+      </label>
+      <label>
+        Rewrite Length:
+        <select id="rewrite-length">
+          <option value="shorter">Shorter</option>
+          <option value="longer">Longer</option>
+          <option value="as-is" selected>As Is</option>
+        </select>
+      </label>
+      <button id="submit-btn-rewrite">Rewrite</button>
+    </fieldset>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
