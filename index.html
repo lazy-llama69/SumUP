@@ -16,6 +16,7 @@
     <button id="prompt-button">Prompt API</button>
     <button id="summary-button">Summarize API</button>
     <button id="detect-button">Detect API</button>
+    <button id="translate-button">Translate API</button>
   </div>
 
   <!-- Back Button -->
@@ -67,7 +68,20 @@
     <pre id="detect-response-output"></pre>
   </div>
 
-
+  <!-- Translate Language Section -->
+  <div id="translate-feature" class="feature" style="display: none;">
+    <textarea id="translate-input" placeholder="Enter your text...."></textarea>
+    <label for="translate-to">Type:</label>
+    <select id="translate-to">
+      <option value="es">Spanish</option>
+      <option value="ja">Japanese</option>
+    </select>
+    <button id="submit-btn-translate">Submit</button>
+    <h2>Result:</h2>
+    <pre id="translate-response-output"></pre>
+  </div>
+  
   <script src="script.js"></script>
 </body>
 </html>
+

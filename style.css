@@ -35,7 +35,7 @@ h1 {
     text-align: center; 
 }
 
-#prompt-input, #summary-input, #detect-input {
+#prompt-input, #summary-input, #detect-input, #translate-input {
     margin-top: 10px;
     width: 500px;
     height: 200px;
@@ -47,7 +47,7 @@ h1 {
     box-sizing: border-box;
 }
 
-#prompt-response-output, #summary-response-output, #detection-response-output {
+#prompt-response-output, #summary-response-output, #detection-response-output, #translate-response-output {
     margin-top: 10px;
     padding: 15px;
     background-color: #f9f9f9;
@@ -58,7 +58,7 @@ h1 {
     border-color: black;
 }
 
-#submit-btn-prompt, #submit-btn-summary, #submit-btn-detect{
+#submit-btn-prompt, #submit-btn-summary, #submit-btn-detect, #submit-btn-translate{
     background-color: #007BFF;
     color: white;
     font-size: 16px;

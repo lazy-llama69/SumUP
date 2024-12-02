@@ -7,11 +7,13 @@ const backButton = document.getElementById("back-btn");
 initializePromptFeature();
 initializeSummarizationFeature();
 initializeDetectFeature();
+initializeTranslateFeature();
 
 // Feature Toggle Logic
 document.getElementById("prompt-button").addEventListener("click", () => showFeature("Prompt API", "prompt-feature"));
 document.getElementById("summary-button").addEventListener("click", () => showFeature("Summarize API", "summary-feature"));
-document.getElementById("detect-button").addEventListener("click", () => showFeature("Detect API", "detect-feature"))
+document.getElementById("detect-button").addEventListener("click", () => showFeature("Detect API", "detect-feature"));
+document.getElementById("translate-button").addEventListener("click", () => showFeature("Translate API", "translate-feature"));
 
 backButton.addEventListener("click", () => {
   toggleVisibility(backButton, false);
@@ -20,6 +22,7 @@ backButton.addEventListener("click", () => {
   toggleVisibility(document.getElementById("prompt-feature"), false);
   toggleVisibility(document.getElementById("summary-feature"), false);
   toggleVisibility(document.getElementById("detect-feature"), false);
+  toggleVisibility(document.getElementById("translate-feature"), false);
 });
 
 // Show feature-specific section and update UI
@@ -130,9 +133,50 @@ function initializeDetectFeature() {
       console.log('Cannot detect the language');
     }
   });
-  
-  
+}
 
+/** ----------------- TRANSLATE FEATURE ----------------- **/
+function initializeTranslateFeature() {
+  const translateInput = document.getElementById("translate-input");
+  const submitButton = document.getElementById("submit-btn-translate");
+  const responseOutput = document.getElementById("translate-response-output");
+  const translateTo = document.getElementById("translate-to");
 
+  if (!self.translation) {
+    console.error("Translation API not supported");
+    return;
+  }
 
+  submitButton.addEventListener("click", async () => {
+    const inputText = translateInput.value.trim();
+
+    if (inputText.length === 0) {
+      responseOutput.textContent = "Please enter text to translate.";
+      return;
+    }
+
+    responseOutput.textContent = "Translating...";
+
+    // Re-initialize languagePair inside the event listener
+    const languagePair = {
+      sourceLanguage: 'en', 
+      targetLanguage: translateTo.value,  // Capture current dropdown value
+    };
+
+    try {
+      const canTranslate = await translation.canTranslate(languagePair);
+      if (canTranslate === "readily") {
+        const translator = await translation.createTranslator(languagePair);
+        const translated_text = await translator.translate(inputText);
+        
+        responseOutput.textContent = translated_text; 
+        translator.destroy(); // Clean up translator
+      } else {
+        responseOutput.textContent = "Error: Translation not readily available.";
+      }
+    } catch (error) {
+      responseOutput.textContent = "Error translating. Please try again.";
+      console.error("Translation error:", error);
+    }
+  });
 }
