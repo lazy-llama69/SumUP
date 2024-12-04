@@ -1,16 +1,16 @@
 """
 Features to be implemented:
--Clear text and session for each api
--Improve UI
--Translate Language from prompt
--Translate language from summary
--Rewrite response from prompt and summary
 
 Done:
 -Prompt 
 -Summarising
 -Translate 
 -Write and rewrite 
+-Clear text and session for each api
+-Translate Language from prompt
+-Translate language from summary
+-Rewrite response from prompt and summary
+-Improve UI 
 
 Things to note about:
 1. Detect API is very clunky and only works in the console for some reason. 

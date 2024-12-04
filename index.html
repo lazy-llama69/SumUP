@@ -15,9 +15,10 @@
   <div id="feature-buttons">
     <button id="prompt-button">Prompt API</button>
     <button id="summary-button">Summarize API</button>
-    <button id="detect-button">Detect API</button>
+    <!-- <button id="detect-button">Detect API</button> -->
     <button id="translate-button">Translate API</button>
-    <button id="write-button">Write/Rewrite API</button>
+    <button id="write-button">Write API</button>
+    <button id="rewrite-button">Rewrite API</button>
   </div>
 
   <!-- Back Button -->
@@ -26,6 +27,7 @@
   <!-- Prompt Feature Section -->
   <div id="prompt-feature" class="feature" style="display: none;">
     <textarea id="prompt-input" placeholder="Enter your prompt...."></textarea>
+    <button id="clear">Clear</button>
     <button id="submit-btn-prompt">Submit</button>
     <h2>Response:</h2>
     <pre id="prompt-response-output"></pre>
@@ -34,25 +36,29 @@
   <!-- Summarization Feature Section -->
   <div id="summary-feature" class="feature" style="display: none;">
     <textarea id="summary-input" placeholder="Enter text to summarize"></textarea>
-    <label for="summary-type">Type:</label>
-    <select id="summary-type">
-      <option value="key-points">Key Points</option>
-      <option value="tl;dr">TL;DR</option>
-      <option value="teaser">Teaser</option>
-      <option value="headline">Headline</option>
-    </select>
-    <label for="summary-length">Length:</label>
-    <select id="summary-length">
-      <option value="short">Short</option>
-      <option value="medium">Medium</option>
-      <option value="long">Long</option>
-    </select>
-    <label for="summary-format">Format:</label>
-    <select id="summary-format">
-      <option value="markdown">Markdown</option>
-      <option value="plain-text">Plain Text</option>
-    </select>
+    <fieldset>
+      <legend>Summary Options</legend>
+      <label for="summary-type">Type:</label>
+      <select id="summary-type">
+        <option value="key-points">Key Points</option>
+        <option value="tl;dr">TL;DR</option>
+        <option value="teaser">Teaser</option>
+        <option value="headline">Headline</option>
+      </select>
+      <label for="summary-length">Length:</label>
+      <select id="summary-length">
+        <option value="short">Short</option>
+        <option value="medium">Medium</option>
+        <option value="long">Long</option>
+      </select>
+      <label for="summary-format">Format:</label>
+      <select id="summary-format">
+        <option value="markdown">Markdown</option>
+        <option value="plain-text">Plain Text</option>
+      </select>
+    </fieldset>
     <div> 
+      <button id="clear">Clear</button>
       <button id="submit-btn-summary">Submit</button>
     </div>
     <div>
@@ -64,6 +70,7 @@
   <!-- Detect Language Section -->
   <div id="detect-feature" class="feature" style="display: none;">
     <textarea id="detect-input" placeholder="Enter your unidentified text language...."></textarea>
+    <button id="clear">Clear</button>
     <button id="submit-btn-detect">Submit</button>
     <h2>The language is:</h2>
     <pre id="detect-response-output"></pre>
@@ -72,22 +79,46 @@
   <!-- Translate Language Section -->
   <div id="translate-feature" class="feature" style="display: none;">
     <textarea id="translate-input" placeholder="Enter your text...."></textarea>
-    <label for="translate-to">Type:</label>
-    <select id="translate-to">
-      <option value="es">Spanish</option>
-      <option value="ja">Japanese</option>
-    </select>
-    <button id="submit-btn-translate">Submit</button>
+    <fieldset>
+      <legend>Translate Options</legend>
+      <label for="translate-to">Type:</label>
+      <select id="translate-to">
+        <option value="en">English</option>
+        <option value="es">Spanish</option>
+        <option value="ja">Japanese</option>
+      </select>
+      <div>
+        <label>
+          <input type="radio" name="response-source" value="input" checked /> 
+          Use Input Box
+        </label>
+        <label>
+          <input type="radio" name="response-source" value="prompt" /> 
+          Use Prompt Response
+        </label>
+        <label>
+          <input type="radio" name="response-source" value="summary" /> 
+          Use Summary Response
+        </label>
+      </div>
+    </fieldset>
+    <div>
+      <button id="clear">Clear</button>
+      <button id="submit-btn-translate">Submit</button>
+    </div>
     <h2>Result:</h2>
     <pre id="translate-response-output"></pre>
   </div>
 
-  <!-- Writer/Rewriter Section -->
+  <!-- Writer+Rewriter Section -->
   <div id="write-feature" class="feature" style="display: none;">
     <textarea id="write-input" placeholder="Enter your prompt...."></textarea>
-    <label for="context">Context</label>
+    <label for="context">Context: </label>
     <input id="context" value="I want to be a comedian"/>
-    <button id="submit-btn-write">Submit</button>
+    <div>
+      <button id="clear">Clear</button>
+      <button id="submit-btn-write">Submit</button>
+    </div>
     <h2>Result:</h2>
     <pre id="write-response-output"></pre>
     
@@ -110,9 +141,52 @@
           <option value="as-is" selected>As Is</option>
         </select>
       </label>
-      <button id="submit-btn-rewrite">Rewrite</button>
+      <button id="submit-btn-rewrite">↻</button>
     </fieldset>
   </div>
+  
+  <!-- Rewriter Section -->
+  <div id="rewrite-feature-2" class="feature" style="display: none;">
+    <fieldset>
+      <legend>Select Source for Rewrite:</legend>
+      <label>
+        <input type="radio" name="rewrite-source" value="manual" checked /> Enter Manually
+      </label>
+      <label>
+        <input type="radio" name="rewrite-source" value="prompt" /> Use Prompt Response
+      </label>
+      <label>
+        <input type="radio" name="rewrite-source" value="summary" /> Use Summary Response
+      </label>
+    </fieldset>
+    
+    <textarea id="rewrite-input" placeholder="Enter text to rewrite..."></textarea>
+    <label for="context-2">Context: </label>
+    <input id="context-2" value="I want to tell this to my friends"/>
+    <fieldset>
+      <legend>Rewrite Options:</legend>
+      <label>
+        Rewrite Tone:
+        <select id="rewrite-tone-2">
+          <option value="more-formal">More Formal</option>
+          <option value="more-casual">More Casual</option>
+          <option value="as-is" selected>As Is</option>
+        </select>
+      </label>
+      <label>
+        Rewrite Length:
+        <select id="rewrite-length-2">
+          <option value="shorter">Shorter</option>
+          <option value="longer">Longer</option>
+          <option value="as-is" selected>As Is</option>
+        </select>
+      </label>
+    </fieldset>
+    <button id="submit-btn-rewrite-2">Rewrite</button>
+    
+    <h2>Result:</h2>
+    <pre id="rewrite-response-output"></pre>
+  </div>  
 
   <script src="script.js"></script>
 </body>
