@@ -327,7 +327,7 @@ function initializeRewriteFeature() {
         context.value = savedSummaryInput;
         rewriteInput.value = savedSummaryResponse;
       } else {
-        context.value = "Default context: I am trying to understand the text better."
+        context.value = "I am trying to understand the text better."
         rewriteInput.value = "";
         rewriteInput.placeholder = "Enter text to rewrite...";
       }
@@ -351,16 +351,12 @@ function initializeRewriteFeature() {
     }
 
     const rewriter = await self.ai.rewriter.create({
-      // tone: rewriteTone.value,
-      // length: rewriteLength.value
-      // format: "as-is",
-      // sharedContext: context,
+      tone: rewriteTone.value,
+      length: rewriteLength.value,
+      format: "as-is",
+      sharedContext: context,
     });
 
-    // Function to simulate delay (similar to time.sleep() in Python)
-    function sleep(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
-    }
     let result = "";
     try {
       rewriteResponseOutput.textContent = "Rewriting...";
