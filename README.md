@@ -57,9 +57,9 @@ An intuitive browser extension that brings the power of AI directly to your fing
 Please feel free to give your feedback! Suggestions, bug reports, and contributions are greatly appreciated.   
 <td>
 
-Tang Jia Shen
-<p align="center">
 
+<p align="center">
+Tang Jia Shen
 </p>
 <p align="center">
 <a href = "https://github.com/lazy-llama69"><img src = "http://www.iconninja.com/files/241/825/211/round-collaboration-social-github-code-circle-network-icon.svg" width="36" height = "36"/></a>
